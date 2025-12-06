@@ -69,7 +69,7 @@ public class InventoryCheck {
         // 0~8 是快捷栏
         for (int i = 0; i <= 8; i++) {
             ItemStack item = contents[i];
-            if (item != null && item.getType() == TARGET_ITEM) {
+            if (item != null && item.getType() == TARGET_ITEM && item.getAmount() > 1) {
                 return true;
             }
         }
