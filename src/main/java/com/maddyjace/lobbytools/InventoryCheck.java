@@ -16,9 +16,7 @@ public class InventoryCheck {
 
     /** 启动任务 */
     public static void start() {
-        task = Bukkit.getScheduler().runTaskTimer(Get.plugin(), () -> {
-            checkAllPlayers();
-        }, 20L, 20L);
+        task = Bukkit.getScheduler().runTaskTimer(Get.plugin(), InventoryCheck::checkAllPlayers, 20L, 20L);
     }
 
     /** 取消任务 */
@@ -69,7 +67,12 @@ public class InventoryCheck {
         // 0~8 是快捷栏
         for (int i = 0; i <= 8; i++) {
             ItemStack item = contents[i];
-            if (item != null && item.getType() == TARGET_ITEM && item.getAmount() >= 2) {
+            if (item != null && item.getType() == TARGET_ITEM) {
+                if (item.getAmount() > 1) {
+                    // 强制堆叠数量为 1
+                    item.setAmount(1);
+                    player.getInventory().setItem(i, item); // 更新格子
+                }
                 return true;
             }
         }
